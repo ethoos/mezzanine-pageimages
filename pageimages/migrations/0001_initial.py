@@ -1,86 +1,39 @@
 # -*- coding: utf-8 -*-
-import datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+from __future__ import unicode_literals
+
+from django.db import migrations, models
+import django.db.models.deletion
+import mezzanine.core.fields
 
 
-class Migration(SchemaMigration):
+class Migration(migrations.Migration):
 
-    def forwards(self, orm):
-        # Adding model 'PageImage'
-        db.create_table(u'pageimages_pageimage', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('page', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['pages.Page'])),
-            ('file', self.gf('mezzanine.core.fields.FileField')(max_length=200)),
-        ))
-        db.send_create_signal(u'pageimages', ['PageImage'])
+    initial = True
 
+    dependencies = [
+        ('pages', '0003_auto_20150527_1555'),
+    ]
 
-    def backwards(self, orm):
-        # Deleting model 'PageImage'
-        db.delete_table(u'pageimages_pageimage')
-
-
-    models = {
-        u'contenttypes.contenttype': {
-            'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},
-            'app_label': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
-        },
-        u'generic.assignedkeyword': {
-            'Meta': {'ordering': "('_order',)", 'object_name': 'AssignedKeyword'},
-            '_order': ('django.db.models.fields.IntegerField', [], {'null': 'True'}),
-            'content_type': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['contenttypes.ContentType']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'keyword': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'assignments'", 'to': u"orm['generic.Keyword']"}),
-            'object_pk': ('django.db.models.fields.IntegerField', [], {})
-        },
-        u'generic.keyword': {
-            'Meta': {'object_name': 'Keyword'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'site': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['sites.Site']"}),
-            'slug': ('django.db.models.fields.CharField', [], {'max_length': '2000', 'null': 'True', 'blank': 'True'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '500'})
-        },
-        u'pageimages.pageimage': {
-            'Meta': {'object_name': 'PageImage'},
-            'file': ('mezzanine.core.fields.FileField', [], {'max_length': '200'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'page': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['pages.Page']"})
-        },
-        u'pages.page': {
-            'Meta': {'ordering': "('titles',)", 'object_name': 'Page'},
-            '_meta_title': ('django.db.models.fields.CharField', [], {'max_length': '500', 'null': 'True', 'blank': 'True'}),
-            '_order': ('django.db.models.fields.IntegerField', [], {'null': 'True'}),
-            'content_model': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True'}),
-            'created': ('django.db.models.fields.DateTimeField', [], {'null': 'True'}),
-            'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'expiry_date': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
-            'gen_description': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'in_menus': ('mezzanine.pages.fields.MenusField', [], {'default': '(1, 2, 3)', 'max_length': '100', 'null': 'True', 'blank': 'True'}),
-            'in_sitemap': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'keywords_string': ('django.db.models.fields.CharField', [], {'max_length': '500', 'blank': 'True'}),
-            'login_required': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'parent': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'children'", 'null': 'True', 'to': u"orm['pages.Page']"}),
-            'publish_date': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
-            'short_url': ('django.db.models.fields.URLField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
-            'site': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['sites.Site']"}),
-            'slug': ('django.db.models.fields.CharField', [], {'max_length': '2000', 'null': 'True', 'blank': 'True'}),
-            'status': ('django.db.models.fields.IntegerField', [], {'default': '2'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '500'}),
-            'titles': ('django.db.models.fields.CharField', [], {'max_length': '1000', 'null': 'True'}),
-            'updated': ('django.db.models.fields.DateTimeField', [], {'null': 'True'})
-        },
-        u'sites.site': {
-            'Meta': {'ordering': "('domain',)", 'object_name': 'Site', 'db_table': "'django_site'"},
-            'domain': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
-        }
-    }
-
-    complete_apps = ['pageimages']
+    operations = [
+        migrations.CreateModel(
+            name='DefaultImage',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('file', mezzanine.core.fields.FileField(max_length=200, verbose_name='File')),
+                ('type', models.CharField(choices=[('BACKGROUND', 'Background image for the page')], max_length=32)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='PageImage',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('file', mezzanine.core.fields.FileField(max_length=200, verbose_name='File')),
+                ('type', models.CharField(choices=[('BACKGROUND', 'Background image for the page')], max_length=32)),
+                ('page', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='pages.Page')),
+            ],
+            options={
+                'verbose_name_plural': 'Pages Images',
+                'verbose_name': 'Page-Image',
+            },
+        ),
+    ]
