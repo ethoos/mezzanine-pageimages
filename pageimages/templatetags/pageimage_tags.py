@@ -27,7 +27,6 @@ def get_default_image(type):
     defaultimgs = DefaultImage.objects.filter(type=type)
     if len(defaultimgs):
         return defaultimgs[0].file.url
-    print("FALLBACK will return ''")
     return u''
 
 
